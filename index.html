@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Zephyr | Pulso Tecnológico · Código · Comunidad</title>
+  <!-- Fuentes: estilo terminal + geométrica audaz -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0a0c0f;
+      color: #e0e0e0;
+      font-family: 'JetBrains Mono', monospace;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Fondo de partículas flotantes estilo terminal (animación lenta) */
+    .particle-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .particle {
+      position: absolute;
+      color: rgba(0, 255, 255, 0.15);
+      font-size: 1.2rem;
+      user-select: none;
+      animation: floatCode 20s infinite linear;
+      white-space: pre;
+    }
+
+    @keyframes floatCode {
+      0% { transform: translateY(105vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.3; }
+      90% { opacity: 0.3; }
+      100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Contenedor principal sobre el fondo */
+    .wrapper {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* Tipografía de apoyo */
+    h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 2.2rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      color: #b388ff;
+      text-shadow: 0 0 10px #7c4dff;
+    }
+
+    /* Sección 1: Hero origen con brillo neón */
+    .hero {
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      animation: fadeInUp 1.2s ease-out;
+      margin-bottom: 3rem;
+    }
+
+    .hero-glow {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 40%, rgba(0, 180, 255, 0.1) 0%, transparent 70%);
+      filter: blur(60px);
+      z-index: -1;
+    }
+
+    .hero h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(3.5rem, 12vw, 7rem);
+      font-weight: 900;
+      letter-spacing: 8px;
+      color: #e0f0ff;
+      text-shadow: 0 0 20px #00b8ff, 0 0 60px #7c4dff;
+      margin-bottom: 1.5rem;
+      animation: neonPulse 2.5s infinite alternate;
+    }
+
+    @keyframes neonPulse {
+      0% { text-shadow: 0 0 20px #00b8ff, 0 0 40px #7c4dff; }
+      100% { text-shadow: 0 0 35px #00ffff, 0 0 80px #b388ff; }
+    }
+
+    .hero blockquote {
+      font-size: 1.4rem;
+      font-style: italic;
+      border-left: 4px solid #7c4dff;
+      padding-left: 2rem;
+      max-width: 800px;
+      margin: 1.5rem auto;
+      color: #cfd8ff;
+      background: rgba(10, 20, 30, 0.7);
+      backdrop-filter: blur(8px);
+      border-radius: 0 12px 12px 0;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 750px;
+      margin: 1.8rem auto;
+      color: #b0c6ff;
+    }
+
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Sección 2: Núcleo tecnológico - PCB grid */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin: 4rem 0;
+    }
+
+    .pcb-card {
+      background: #11161c;
+      border: 1px solid #2a3a4a;
+      border-radius: 20px;
+      padding: 2rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      backdrop-filter: blur(10px);
+      background: linear-gradient(145deg, #0f1722 0%, #1a232e 100%);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+      cursor: default;
+    }
+
+    .pcb-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 30%, rgba(0, 255, 200, 0.08) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .pcb-card:hover::before {
+      opacity: 1;
+    }
+
+    .pcb-card:hover {
+      transform: translateY(-8px);
+      border-color: #00e5ff;
+      box-shadow: 0 0 25px #00b8ff66, 0 15px 30px rgba(0,0,0,0.8);
+    }
+
+    /* Animación de carga terminal al hacer hover */
+    .pcb-card .terminal-effect {
+      position: absolute;
+      bottom: 15px;
+      right: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      color: #00ffc3;
+      font-size: 0.9rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+      background: #0a0f14;
+      padding: 0.2rem 0.8rem;
+      border-radius: 8px;
+    }
+
+    .pcb-card:hover .terminal-effect {
+      opacity: 1;
+      animation: blinkCursor 0.9s infinite;
+    }
+
+    @keyframes blinkCursor {
+      0%, 100% { border-right: 2px solid #00ffc3; }
+      50% { border-right: 2px solid transparent; }
+    }
+
+    .pcb-card h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.5rem;
+      color: #80cbc4;
+      margin-bottom: 1.2rem;
+      letter-spacing: 2px;
+    }
+
+    .pcb-card p {
+      color: #b0bec5;
+      font-size: 0.95rem;
+    }
+
+    /* Sección 3: Zephyr S-Famous banner glitch */
+    .sfamous {
+      margin: 5rem 0;
+      padding: 3rem 2rem;
+      background: #0b0e14;
+      border-radius: 30px;
+      position: relative;
+      border: 1px solid #3f2b5c;
+      box-shadow: 0 0 40px rgba(156, 39, 176, 0.3);
+      text-align: center;
+    }
+
+    .glitch-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #e0b0ff;
+      position: relative;
+      display: inline-block;
+      letter-spacing: 8px;
+    }
+
+    .glitch-text::before,
+    .glitch-text::after {
+      content: "Zephyr S-Famous";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      color: #e0b0ff;
+      opacity: 0.7;
+    }
+
+    .glitch-text::before {
+      animation: glitch 0.4s infinite alternate-reverse;
+      color: #ff00c1;
+      z-index: -1;
+    }
+
+    .glitch-text::after {
+      animation: glitch 0.3s infinite alternate;
+      color: #00ffff;
+      z-index: -2;
+    }
+
+    @keyframes glitch {
+      0% { transform: translate(2px, -2px); }
+      25% { transform: translate(-3px, 3px); }
+      50% { transform: translate(-1px, 1px); }
+      75% { transform: translate(3px, -1px); }
+      100% { transform: translate(0, 0); }
+    }
+
+    .sfamous p {
+      font-size: 1.3rem;
+      margin: 2rem 0;
+      font-weight: 600;
+      color: #d1c4e9;
+    }
+
+    /* Sección 4: Ecualizador audio */
+    .equalizer-section {
+      margin: 5rem 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .eq-visual {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+      height: 120px;
+      margin: 2rem 0;
+    }
+
+    .bar {
+      width: 22px;
+      background: linear-gradient(to top, #cf9f4b, #ffb74d);
+      border-radius: 4px;
+      animation: eqMotion 1.2s infinite ease-in-out alternate;
+      box-shadow: 0 0 12px #ffa000;
+    }
+
+    .bar:nth-child(1) { height: 35px; animation-delay: 0s; }
+    .bar:nth-child(2) { height: 70px; animation-delay: 0.2s; }
+    .bar:nth-child(3) { height: 50px; animation-delay: 0.4s; }
+    .bar:nth-child(4) { height: 95px; animation-delay: 0.1s; }
+    .bar:nth-child(5) { height: 60px; animation-delay: 0.5s; }
+    .bar:nth-child(6) { height: 80px; animation-delay: 0.3s; }
+    .bar:nth-child(7) { height: 45px; animation-delay: 0.6s; }
+    .bar:nth-child(8) { height: 100px; animation-delay: 0.25s; }
+    .bar:nth-child(9) { height: 65px; animation-delay: 0.7s; }
+
+    @keyframes eqMotion {
+      0% { transform: scaleY(0.5); background: #cf9f4b; }
+      100% { transform: scaleY(1.2); background: #ffb74d; box-shadow: 0 0 18px #ff9100; }
+    }
+
+    .soundtrack-text {
+      max-width: 700px;
+      text-align: center;
+      font-size: 1.2rem;
+      color: #ddc7a0;
+    }
+
+    /* Footer interactivo - botón magnético */
+    .footer-interactive {
+      margin-top: 6rem;
+      padding: 4rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-top: 2px solid #2a1f3d;
+    }
+
+    .magnetic-btn {
+      background: transparent;
+      border: 2px solid #b388ff;
+      color: #ffffff;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      padding: 1.2rem 3.5rem;
+      border-radius: 60px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s ease;
+      background: rgba(20, 10, 40, 0.7);
+      backdrop-filter: blur(12px);
+      letter-spacing: 3px;
+      box-shadow: 0 0 25px #7c4dff;
+      animation: magneticPulse 2s infinite;
+      margin: 2rem 0;
+    }
+
+    .magnetic-btn:hover {
+      background: #b388ff;
+      color: #0a0c0f;
+      box-shadow: 0 0 50px #b388ff;
+      transform: scale(1.07);
+      border-color: #ffffff;
+    }
+
+    @keyframes magneticPulse {
+      0% { box-shadow: 0 0 15px #7c4dff; }
+      50% { box-shadow: 0 0 45px #b388ff, 0 0 80px #4a148c; }
+      100% { box-shadow: 0 0 15px #7c4dff; }
+    }
+
+    .footer-text {
+      font-size: 1.3rem;
+      margin: 1rem 0;
+      color: #cec3ff;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .glitch-text {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- partículas código flotante -->
+  <div class="particle-bg" id="particleContainer"></div>
+
+  <div class="wrapper">
+    <!-- SECCIÓN 1: ORIGEN -->
+    <section class="hero">
+      <div class="hero-glow"></div>
+      <h1>ZEPHYR</h1>
+      <blockquote>
+        "Donde la pasión por el desarrollo, el estilo retro y la energía de la vieja escuela chocan con la innovación digital."
+      </blockquote>
+      <p>
+        ZEPHYR. Más que un nombre, es una identidad en constante movimiento.<br>
+        Desde las entrañas del código fuente hasta la conectividad sin fronteras en el entorno escolar, 
+        Zephyr representa la fusión perfecta entre la lógica de la programación moderna y la autenticidad de lo clásico.
+      </p>
+    </section>
+
+    <!-- SECCIÓN 2: NÚCLEO TECNOLÓGICO -->
+    <h2>⚙️ Núcleo Tecnológico</h2>
+    <div class="tech-grid">
+      <div class="pcb-card">
+        <h3>🖥️ Arquitectura y Código</h3>
+        <p>El dominio absoluto del desarrollo web, la gestión de entornos de desarrollo avanzados en Linux (antiX) y la estructuración de proyectos alojados directamente en GitHub. Cada línea de código está pensada para la eficiencia pura.</p>
+        <span class="terminal-effect">> exec master_</span>
+      </div>
+      <div class="pcb-card">
+        <h3>🕹️ Filosofía Retro-Hardware</h3>
+        <p>El respeto absoluto por las leyendas del entretenimiento digital. El cuidado de consolas clásicas como la Sega Genesis y cartuchos originales demuestra que la verdadera calidad tecnológica trasciende el paso del tiempo.</p>
+        <span class="terminal-effect">> load retro_core</span>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 3: ZEPHYR S-FAMOUS -->
+    <section class="sfamous">
+      <div class="glitch-text">Zephyr S-Famous</div>
+      <p>Conectividad y Estilo sin Límites.</p>
+      <p style="font-size: 1.1rem; max-width: 700px; margin: 0 auto;">
+        Zephyr S-Famous nace para romper las reglas del juego cotidiano. Es la solución definitiva en compartición de datos y redes de acceso, combinada con una presencia en redes sociales diseñada para destacar y conectar a toda una comunidad.
+      </p>
+    </section>
+
+    <!-- SECCIÓN 4: SOUNDTRACK Y ACTITUD -->
+    <section class="equalizer-section">
+      <h2 style="text-align: center;">🎸 Soundtrack & Actitud</h2>
+      <div class="eq-visual">
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+        <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+      </div>
+      <div class="soundtrack-text">
+        <p><strong>Energía Forjada en Acordes Pesados.</strong></p>
+        <p>El motor creativo de Zephyr se alimenta del poder del nu metal, el rock progresivo, alternativo y el heavy metal clásico. La misma potencia que emanan bandas legendarias como System of a Down o Linkin Park se traduce en cada proyecto, en cada decisión técnica y en la visión frontal con la que se afronta cualquier reto.</p>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 5: LLAMADO A LA ACCIÓN -->
+    <footer class="footer-interactive">
+      <p class="footer-text">¿Listo para conectar con la siguiente evolución?</p>
+      <button class="magnetic-btn" onclick="alert('Explora repositorios · descubre el catálogo · sé parte del movimiento.')">CONECTAR</button>
+      <p style="color: #a89fd1; margin-top: 1rem;">Explora los repositorios, descubre el catálogo y sé parte del movimiento.</p>
+    </footer>
+  </div>
+
+  <script>
+    (function() {
+      // Generar partículas flotantes de código
+      const container = document.getElementById('particleContainer');
+      const codeSnippets = ['</>', '{ }', 'const', '0x1A', 'git push', 'npm run', 'import', '//', '::', '[]', '=>', '&&'];
+      for (let i = 0; i < 45; i++) {
+        const particle = document.createElement('span');
+        particle.className = 'particle';
+        particle.textContent = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDuration = (Math.random() * 20 + 15) + 's';
+        particle.style.fontSize = (Math.random() * 1.5 + 0.8) + 'rem';
+        particle.style.animationDelay = Math.random() * 15 + 's';
+        container.appendChild(particle);
+      }
+    })();
+  </script>
+</body>
+</html>
